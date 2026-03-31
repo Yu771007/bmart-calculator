@@ -65,7 +65,6 @@
       margin-top: 6px;
       position: relative;
     }
-
     .wrap {
       max-width: 820px;
       margin: 0 auto;
@@ -75,8 +74,6 @@
       box-shadow: 0 8px 32px rgba(58,37,24,0.10);
       border-top: 3px solid #d4af55;
     }
-
-    /* 탭 */
     .tabs {
       display: flex;
       gap: 6px;
@@ -107,10 +104,8 @@
       border-color: #d4af55;
       color: #5c3d2e;
     }
-
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-
     .info-bar {
       background: linear-gradient(90deg, #fdf6ea, #fef9f0);
       border-left: 4px solid #d4af55;
@@ -122,7 +117,6 @@
       color: #6b5340;
     }
     .info-bar strong { color: #c13a32; }
-
     .input-section {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -137,13 +131,12 @@
       flex-direction: column;
       gap: 5px;
     }
-    .input-group.full { grid-column: 1 / -1; }
     .input-group label {
       font-size: 13px;
       font-weight: 700;
       color: #5c3d2e;
     }
-    .input-group input, .input-group select {
+    .input-group input {
       padding: 11px 14px;
       border: 2px solid #e8ddd0;
       border-radius: 12px;
@@ -158,7 +151,6 @@
       border-color: #d4af55;
       box-shadow: 0 0 0 3px rgba(212,175,85,0.2);
     }
-
     .product-btns {
       display: flex;
       gap: 8px;
@@ -206,7 +198,6 @@
       min-width: 120px;
     }
     .btn-calc:hover { background: linear-gradient(135deg, #6d4e3e 0%, #4a3528 100%); }
-
     .result {
       background: linear-gradient(135deg, #fefcf7 0%, #faf5ec 100%);
       border: 2px solid #e8ddd0;
@@ -217,7 +208,6 @@
       font-size: 14px;
       min-height: 60px;
     }
-
     .footer-note {
       max-width: 820px;
       margin: 14px auto 0;
@@ -243,9 +233,9 @@
 
   <div class="brand-header">
     <div class="brand-logos">
-      <span class="brand-badge badge-hart">&#10084; HART TIRAMISU</span>
-      <span class="brand-badge badge-golden">&#9733; GOLDEN PIECE</span>
-      <span class="brand-badge badge-cheese">&#9679; GOLDEN CHEESE</span>
+      <span class="brand-badge badge-hart">HART TIRAMISU</span>
+      <span class="brand-badge badge-golden">GOLDEN PIECE</span>
+      <span class="brand-badge badge-cheese">GOLDEN CHEESE</span>
     </div>
     <h1>소비기한 잔존율 계산기</h1>
     <div class="sub-title">FROM GOLDEN PIECE · FACTORY SUPPORT TEAM</div>
@@ -253,90 +243,85 @@
 
   <div class="wrap">
 
-    <!-- 탭 메뉴 -->
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('tab1')">&#9313; 잔존율 판정 (70%)</button>
-      <button class="tab-btn" onclick="switchTab('tab2')">&#9314; 소비기한 조회 (100%)</button>
-      <button class="tab-btn" onclick="switchTab('tab3')">&#9315; 소비기한 → 제조일 역산</button>
+      <button class="tab-btn active" onclick="switchTab('tab1')">① 잔존율 판정 (70%)</button>
+      <button class="tab-btn" onclick="switchTab('tab2')">② 소비기한 조회 (100%)</button>
+      <button class="tab-btn" onclick="switchTab('tab3')">③ 소비기한 → 제조일 역산</button>
     </div>
 
-    <!-- ======= 탭1: 잔존율 판정 (기존 70%) ======= -->
     <div id="tab1" class="tab-panel active">
       <div class="info-bar">
-        <strong>&#9888;</strong> 남은 기간 ÷ 전체 소비기한 ≥ <strong>70%</strong> 기준 &nbsp;|&nbsp;
-        실무상 <strong>하루 버퍼</strong> 권장
+        <strong>⚠</strong> 남은 기간 ÷ 전체 소비기한 ≥ <strong>70%</strong> 기준 | 실무상 <strong>하루 버퍼</strong> 권장
       </div>
       <div class="input-section">
         <div class="input-group">
-          <label>&#128197; 입고예정일</label>
+          <label>입고예정일</label>
           <input type="date" id="t1_receiptDate" value="2026-04-15" />
         </div>
         <div class="input-group">
-          <label>&#9202; 소비기한 (개월)</label>
+          <label>소비기한 (개월)</label>
           <input type="number" id="t1_shelfMonths" value="9" min="1" step="1" />
         </div>
         <div class="input-group">
-          <label>&#128202; 기준 잔존율 (%)</label>
+          <label>기준 잔존율 (%)</label>
           <input type="number" id="t1_threshold" value="70" min="1" max="100" step="1" />
         </div>
         <div class="input-group">
-          <label>&#128221; 제조일 (선택 입력)</label>
+          <label>제조일 (선택 입력)</label>
           <input type="date" id="t1_mfgDate" />
         </div>
       </div>
       <div class="product-btns">
-        <button class="btn btn-hart" onclick="t1_setProduct(9)">&#10084; 하트티라미수 (9개월)</button>
-        <button class="btn btn-golden" onclick="t1_setProduct(6)">&#9733; 골든피스 (6개월)</button>
-        <button class="btn btn-cheese" onclick="t1_setProduct(9)">&#9679; 골든치즈 (9개월)</button>
-        <button class="btn btn-calc" onclick="t1_calculate()">&#9654; 계산하기</button>
+        <button class="btn btn-hart" onclick="t1_setProduct(9)">하트티라미수 (9개월)</button>
+        <button class="btn btn-golden" onclick="t1_setProduct(6)">골든피스 (6개월)</button>
+        <button class="btn btn-cheese" onclick="t1_setProduct(9)">골든치즈 (9개월)</button>
+        <button class="btn btn-calc" onclick="t1_calculate()">계산하기</button>
       </div>
       <div id="t1_result" class="result">값을 입력하고 계산하기를 눌러주세요.</div>
     </div>
 
-    <!-- ======= 탭2: 소비기한 조회 (100%) ======= -->
     <div id="tab2" class="tab-panel">
       <div class="info-bar">
-        <strong>&#128204;</strong> 제조일 기준으로 <strong>소비기한일</strong>과 <strong>중간 경과 시점</strong>을 조회합니다.
+        제조일 기준으로 <strong>소비기한일</strong>과 <strong>중간 경과 시점</strong>을 조회합니다.
       </div>
       <div class="input-section">
         <div class="input-group">
-          <label>&#128197; 제조일</label>
+          <label>제조일</label>
           <input type="date" id="t2_mfgDate" value="2026-01-01" />
         </div>
         <div class="input-group">
-          <label>&#9202; 소비기한 (개월)</label>
+          <label>소비기한 (개월)</label>
           <input type="number" id="t2_shelfMonths" value="9" min="1" step="1" />
         </div>
       </div>
       <div class="product-btns">
-        <button class="btn btn-hart" onclick="t2_setProduct(9)">&#10084; 하트티라미수 (9개월)</button>
-        <button class="btn btn-golden" onclick="t2_setProduct(6)">&#9733; 골든피스 (6개월)</button>
-        <button class="btn btn-cheese" onclick="t2_setProduct(9)">&#9679; 골든치즈 (9개월)</button>
-        <button class="btn btn-calc" onclick="t2_calculate()">&#9654; 조회하기</button>
+        <button class="btn btn-hart" onclick="t2_setProduct(9)">하트티라미수 (9개월)</button>
+        <button class="btn btn-golden" onclick="t2_setProduct(6)">골든피스 (6개월)</button>
+        <button class="btn btn-cheese" onclick="t2_setProduct(9)">골든치즈 (9개월)</button>
+        <button class="btn btn-calc" onclick="t2_calculate()">조회하기</button>
       </div>
       <div id="t2_result" class="result">제조일과 소비기한을 입력하고 조회하기를 눌러주세요.</div>
     </div>
 
-    <!-- ======= 탭3: 소비기한 → 제조일 역산 ======= -->
     <div id="tab3" class="tab-panel">
       <div class="info-bar">
-        <strong>&#128260;</strong> 제품에 표시된 <strong>소비기한일</strong>로부터 <strong>제조일</strong>을 역산합니다.
+        제품에 표시된 <strong>소비기한일</strong>로부터 <strong>제조일</strong>을 역산합니다.
       </div>
       <div class="input-section">
         <div class="input-group">
-          <label>&#128197; 소비기한일 (제품 표시일)</label>
+          <label>소비기한일 (제품 표시일)</label>
           <input type="date" id="t3_expDate" value="2026-10-01" />
         </div>
         <div class="input-group">
-          <label>&#9202; 소비기한 (개월)</label>
+          <label>소비기한 (개월)</label>
           <input type="number" id="t3_shelfMonths" value="9" min="1" step="1" />
         </div>
       </div>
       <div class="product-btns">
-        <button class="btn btn-hart" onclick="t3_setProduct(9)">&#10084; 하트티라미수 (9개월)</button>
-        <button class="btn btn-golden" onclick="t3_setProduct(6)">&#9733; 골든피스 (6개월)</button>
-        <button class="btn btn-cheese" onclick="t3_setProduct(9)">&#9679; 골든치즈 (9개월)</button>
-        <button class="btn btn-calc" onclick="t3_calculate()">&#9654; 역산하기</button>
+        <button class="btn btn-hart" onclick="t3_setProduct(9)">하트티라미수 (9개월)</button>
+        <button class="btn btn-golden" onclick="t3_setProduct(6)">골든피스 (6개월)</button>
+        <button class="btn btn-cheese" onclick="t3_setProduct(9)">골든치즈 (9개월)</button>
+        <button class="btn btn-calc" onclick="t3_calculate()">역산하기</button>
       </div>
       <div id="t3_result" class="result">소비기한일과 개월수를 입력하고 역산하기를 눌러주세요.</div>
     </div>
@@ -351,7 +336,6 @@
 
   <script>
     const DAY_MS = 24 * 60 * 60 * 1000;
-
     function parseDate(v) {
       if (!v) return null;
       const [y, m, d] = v.split("-").map(Number);
@@ -364,7 +348,6 @@
       return y + "-" + m + "-" + d;
     }
     function daysBtw(a, b) { return Math.round((a - b) / DAY_MS); }
-
     function addMonths(date, months) {
       const y = date.getUTCFullYear(), m = date.getUTCMonth(), d = date.getUTCDate();
       const ti = m + months;
@@ -381,8 +364,6 @@
       const ld = new Date(Date.UTC(ty, tm + 1, 0)).getUTCDate();
       return new Date(Date.UTC(ty, tm, Math.min(d, ld)));
     }
-
-    /* ── 탭 전환 ── */
     function switchTab(id) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -390,8 +371,6 @@
       const idx = {'tab1':0,'tab2':1,'tab3':2}[id];
       document.querySelectorAll('.tab-btn')[idx].classList.add('active');
     }
-
-    /* ══════════ 탭1: 잔존율 판정 ══════════ */
     function t1_setProduct(months) {
       document.getElementById("t1_shelfMonths").value = months;
       t1_calculate();
@@ -417,11 +396,9 @@
       const mfgInput = document.getElementById("t1_mfgDate").value;
       const el = document.getElementById("t1_result");
       if (!receipt || !months || !thr) { el.textContent = "입력값을 확인해주세요."; return; }
-
       const ratio = thr / 100;
       const base = t1_findOldest(receipt, months, ratio);
       if (!base) { el.textContent = "결과를 찾지 못했습니다."; return; }
-
       let h = "";
       h += "■ 기준 정보\n";
       h += "  입고예정일: " + fmt(receipt) + "\n";
@@ -432,7 +409,6 @@
       h += "  전체 " + base.total + "일  |  경과 " + base.elapsed + "일  |  남은 " + base.remain + "일\n";
       h += "  잔존율: " + (base.ratio * 100).toFixed(2) + "%\n";
       h += "  실무 권장 최소 잔여일(버퍼+1): " + (base.remain + 1) + "일\n";
-
       if (mfgInput) {
         const mfg = parseDate(mfgInput);
         const exp = addMonths(mfg, months);
@@ -448,8 +424,6 @@
       }
       el.textContent = h;
     }
-
-    /* ══════════ 탭2: 소비기한 조회 (100%) ══════════ */
     function t2_setProduct(months) {
       document.getElementById("t2_shelfMonths").value = months;
       t2_calculate();
@@ -459,21 +433,16 @@
       const months = Number(document.getElementById("t2_shelfMonths").value);
       const el = document.getElementById("t2_result");
       if (!mfg || !months) { el.textContent = "입력값을 확인해주세요."; return; }
-
       const exp = addMonths(mfg, months);
       const totalDays = daysBtw(exp, mfg);
-
       let h = "";
       h += "■ 소비기한 조회 결과\n";
       h += "  제조일: " + fmt(mfg) + "\n";
       h += "  소비기한: " + months + "개월\n";
       h += "  소비기한일: " + fmt(exp) + "\n";
       h += "  전체 일수: " + totalDays + "일\n\n";
-
       h += "■ 주요 경과 시점\n";
-      const checkpoints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-      for (let i = 0; i < checkpoints.length; i++) {
-        const cp = checkpoints[i];
+      for (let cp = 1; cp <= 12; cp++) {
         if (cp > months) break;
         const cpDate = addMonths(mfg, cp);
         const elapsed = daysBtw(cpDate, mfg);
@@ -482,18 +451,13 @@
         const marker = (cp === 6) ? "  ◀ 6개월 시점" : "";
         h += "  " + cp + "개월 → " + fmt(cpDate) + "  (경과 " + elapsed + "일 | 잔존 " + pct + "%)" + marker + "\n";
       }
-
-      // 70% 잔존율 마감일
       const days70 = Math.floor(totalDays * 0.3);
       const date70 = new Date(mfg.getTime() + days70 * DAY_MS);
       h += "\n■ 잔존율 기준 마감일\n";
       h += "  70% 잔존 마감: " + fmt(date70) + " (제조 후 " + days70 + "일까지 입고)\n";
       h += "  50% 시점: " + fmt(addMonths(mfg, Math.floor(months / 2))) + "\n";
-
       el.textContent = h;
     }
-
-    /* ══════════ 탭3: 소비기한 → 제조일 역산 ══════════ */
     function t3_setProduct(months) {
       document.getElementById("t3_shelfMonths").value = months;
       t3_calculate();
@@ -503,32 +467,22 @@
       const months = Number(document.getElementById("t3_shelfMonths").value);
       const el = document.getElementById("t3_result");
       if (!exp || !months) { el.textContent = "입력값을 확인해주세요."; return; }
-
       const mfg = subMonths(exp, months);
       const totalDays = daysBtw(exp, mfg);
-
-      // 오늘 기준 잔존율
-      const today = new Date(Date.UTC(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate()
-      ));
+      const today = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
       const remain = daysBtw(exp, today);
       const elapsed = daysBtw(today, mfg);
       const pct = totalDays > 0 ? ((remain / totalDays) * 100).toFixed(2) : "0";
-
       let h = "";
       h += "■ 제조일 역산 결과\n";
       h += "  소비기한일(입력): " + fmt(exp) + "\n";
       h += "  소비기한: " + months + "개월\n";
       h += "  제조일(역산): " + fmt(mfg) + "\n";
       h += "  전체 일수: " + totalDays + "일\n\n";
-
       h += "■ 오늘(" + fmt(today) + ") 기준 현황\n";
       h += "  경과 일수: " + elapsed + "일\n";
       h += "  남은 일수: " + remain + "일\n";
       h += "  현재 잔존율: " + pct + "%\n";
-
       if (remain < 0) {
         h += "  상태: ❌ 소비기한 경과 (폐기 대상)\n";
       } else if ((remain / totalDays) >= 0.7) {
@@ -538,17 +492,12 @@
       } else {
         h += "  상태: ❌ 잔존율 부족 (유통 어려움)\n";
       }
-
-      // 70% 마감일 계산
       const days70 = Math.floor(totalDays * 0.3);
       const date70 = new Date(mfg.getTime() + days70 * DAY_MS);
       h += "\n■ 참고\n";
       h += "  70% 잔존 마감일: " + fmt(date70) + " (이 날까지 입고해야 70% 충족)\n";
-
       el.textContent = h;
     }
-
-    // 초기 실행
     t1_calculate();
   </script>
 </body>
