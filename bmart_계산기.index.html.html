@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B마트 소비기한 관리 계산기 - 프롬골든피스</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.6em;
+            margin-bottom: 5px;
+            color: #ffd700;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 0.85em;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+        .brand-tag {
+            display: inline-block;
+            background: rgba(255,215,0,0.15);
+            color: #ffd700;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            margin: 0 2px;
+        }
+        .card {
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            color: #ccc;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+        select option { background: #302b63; color: #fff; }
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+        .row .form-group { flex: 1; }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+        .result-card.show { display: block; }
+        .result-title {
+            font-size: 1.1em;
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.92em;
+        }
+        .result-row:last-child { border-bottom: none; }
+        .result-label { color: #aaa; }
+        .result-value { font-weight: 700; color: #fff; }
+        .status-pass {
+            background: rgba(0,200,83,0.15);
+            color: #00c853;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.05em;
+            margin-top: 15px;
+        }
+        .status-fail {
+            background: rgba(255,23,68,0.15);
+            color: #ff1744;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.05em;
+            margin-top: 15px;
+        }
+        .status-warn {
+            background: rgba(255,171,0,0.15);
+            color: #ffab00;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.05em;
+            margin-top: 15px;
+        }
+        .preset-btns {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .preset-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 10px;
+            color: #ffd700;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .preset-btn:hover, .preset-btn.active {
+            background: rgba(255,215,0,0.25);
+            border-color: #ffd700;
+        }
+        .info-box {
+            background: rgba(255,215,0,0.08);
+            border-left: 3px solid #ffd700;
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.82em;
+            color: #ccc;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .divider {
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 20px 0;
+        }
+        @media (max-width: 500px) {
+            .row { flex-direction: column; gap: 0; }
+            .preset-btns { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>B마트 소비기한 계산기</h1>
+        <p class="subtitle">
+            <span class="brand-tag">하트티라미수</span>
+            <span class="brand-tag">골든피스</span>
+            <span class="brand-tag">골든치즈</span>
+            <br><br>냉동 상품 입고 기준: 소비기한 70% 이상 잔여
+        </p>
+
+        <div class="card">
+            <label>제품 프리셋 (빠른 선택)</label>
+            <div class="preset-btns">
+                <div class="preset-btn" onclick="setPreset('티라미수', 270)">티라미수<br><small>9개월(270일)</small></div>
+                <div class="preset-btn" onclick="setPreset('약과', 180)">약과<br><small>6개월(180일)</small></div>
+                <div class="preset-btn" onclick="setPreset('custom', 0)">직접입력</div>
+            </div>
+
+            <div class="form-group">
+                <label for="productName">제품명</label>
+                <input type="text" id="productName" placeholder="예: 하트티라미수 오리지널">
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="shelfLife">총 소비기한 (일)</label>
+                    <input type="number" id="shelfLife" placeholder="예: 270">
+                </div>
+                <div class="form-group">
+                    <label for="requiredPct">잔여 기준 (%)</label>
+                    <input type="number" id="requiredPct" value="70" placeholder="70">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="mfgDate">제조일자</label>
+                    <input type="date" id="mfgDate">
+                </div>
+                <div class="form-group">
+                    <label for="deliveryDate">입고(납품) 예정일</label>
+                    <input type="date" id="deliveryDate" value="2026-04-15">
+                </div>
+            </div>
+
+            <button class="btn" onclick="calculate()">계산하기</button>
+
+            <div class="info-box" style="margin-top:18px;">
+                <strong>계산 공식</strong><br>
+                필요 잔여일 = 총 소비기한 × (잔여기준% ÷ 100)<br>
+                최대 경과 허용일 = 총 소비기한 - 필요 잔여일<br>
+                제조일 한계 = 입고예정일 - 최대 경과 허용일
+            </div>
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <div class="result-title" id="resultTitle">계산 결과</div>
+            <div class="result-row">
+                <span class="result-label">총 소비기한</span>
+                <span class="result-value" id="rShelfLife">-</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">입고 기준 (잔여 %)</span>
+                <span class="result-value" id="rPct">-</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">최소 잔여일수</span>
+                <span class="result-value" id="rMinRemain">-</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">최대 경과 허용일</span>
+                <span class="result-value" id="rMaxElapsed">-</span>
+            </div>
+            <div class="divider"></div>
+            <div class="result-row">
+                <span class="result-label">입고 예정일</span>
+                <span class="result-value" id="rDelivery">-</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">제조일 한계 (이후 제조분만 가능)</span>
+                <span class="result-value" id="rMfgLimit">-</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">소비기한 마감일 (최소)</span>
+                <span class="result-value" id="rExpMin">-</span>
+            </div>
+            <div class="divider" id="divider2"></div>
+            <div id="mfgCheckSection" style="display:none;">
+                <div class="result-row">
+                    <span class="result-label">입력한 제조일</span>
+                    <span class="result-value" id="rMfgDate">-</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">해당 제품 소비기한</span>
+                    <span class="result-value" id="rExpDate">-</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">입고일 기준 잔여일</span>
+                    <span class="result-value" id="rRemainDays">-</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">잔여 비율</span>
+                    <span class="result-value" id="rRemainPct">-</span>
+                </div>
+            </div>
+            <div id="statusBox"></div>
+        </div>
+    </div>
+
+    <script>
+        function setPreset(name, days) {
+            document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+            event.target.closest('.preset-btn').classList.add('active');
+            if (name === 'custom') {
+                document.getElementById('productName').value = '';
+                document.getElementById('shelfLife').value = '';
+                document.getElementById('shelfLife').focus();
+            } else {
+                document.getElementById('productName').value = name;
+                document.getElementById('shelfLife').value = days;
+            }
+        }
+
+        function formatDate(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function daysBetween(d1, d2) {
+            const t1 = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+            const t2 = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+            return Math.floor((t2 - t1) / (1000 * 60 * 60 * 24));
+        }
+
+        function calculate() {
+            const shelfLife = parseInt(document.getElementById('shelfLife').value);
+            const pct = parseInt(document.getElementById('requiredPct').value);
+            const deliveryStr = document.getElementById('deliveryDate').value;
+            const mfgStr = document.getElementById('mfgDate').value;
+            const productName = document.getElementById('productName').value || '제품';
+
+            if (!shelfLife || !pct || !deliveryStr) {
+                alert('총 소비기한, 잔여기준(%), 입고예정일을 모두 입력하세요.');
+                return;
+            }
+
+            const deliveryDate = new Date(deliveryStr);
+            const minRemain = Math.ceil(shelfLife * (pct / 100));
+            const maxElapsed = shelfLife - minRemain;
+
+            // 제조일 한계 = 입고예정일 - 최대경과허용일
+            const mfgLimitDate = new Date(deliveryDate);
+            mfgLimitDate.setDate(mfgLimitDate.getDate() - maxElapsed);
+
+            // 소비기한 최소 마감일 = 입고예정일 + 최소잔여일
+            const expMinDate = new Date(deliveryDate);
+            expMinDate.setDate(expMinDate.getDate() + minRemain);
+
+            document.getElementById('resultTitle').textContent = `[${productName}] 계산 결과`;
+            document.getElementById('rShelfLife').textContent = `${shelfLife}일`;
+            document.getElementById('rPct').textContent = `${pct}% 이상`;
+            document.getElementById('rMinRemain').textContent = `${minRemain}일 이상`;
+            document.getElementById('rMaxElapsed').textContent = `${maxElapsed}일 이내`;
+            document.getElementById('rDelivery').textContent = formatDate(deliveryDate);
+            document.getElementById('rMfgLimit').textContent = formatDate(mfgLimitDate);
+            document.getElementById('rExpMin').textContent = formatDate(expMinDate);
+
+            const resultCard = document.getElementById('resultCard');
+            resultCard.classList.add('show');
+
+            // 제조일 입력 시 개별 검증
+            const mfgSection = document.getElementById('mfgCheckSection');
+            const divider2 = document.getElementById('divider2');
+            const statusBox = document.getElementById('statusBox');
+
+            if (mfgStr) {
+                const mfgDate = new Date(mfgStr);
+                const expDate = new Date(mfgDate);
+                expDate.setDate(expDate.getDate() + shelfLife);
+
+                const remainDays = daysBetween(deliveryDate, expDate);
+                const remainPctVal = ((remainDays / shelfLife) * 100).toFixed(1);
+
+                document.getElementById('rMfgDate').textContent = formatDate(mfgDate);
+                document.getElementById('rExpDate').textContent = formatDate(expDate);
+                document.getElementById('rRemainDays').textContent = `${remainDays}일`;
+                document.getElementById('rRemainPct').textContent = `${remainPctVal}%`;
+
+                mfgSection.style.display = 'block';
+                divider2.style.display = 'block';
+
+                if (remainDays >= minRemain) {
+                    statusBox.innerHTML = `<div class="status-pass">입고 가능 (잔여 ${remainPctVal}% / 기준 ${pct}%)</div>`;
+                } else if (remainDays > 0) {
+                    statusBox.innerHTML = `<div class="status-fail">입고 불가 - 잔여 ${remainPctVal}%로 기준(${pct}%) 미달<br><small>부족일수: ${minRemain - remainDays}일</small></div>`;
+                } else {
+                    statusBox.innerHTML = `<div class="status-fail">입고 불가 - 소비기한 이미 경과</div>`;
+                }
+            } else {
+                mfgSection.style.display = 'none';
+                divider2.style.display = 'none';
+                statusBox.innerHTML = `<div class="status-warn">제조일을 입력하면 개별 제품의 입고 가능 여부를 판정합니다</div>`;
+            }
+
+            resultCard.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
